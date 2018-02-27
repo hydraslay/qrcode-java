@@ -1,7 +1,7 @@
 package jp.sourceforge.reedsolomon;
 
 /**
- * タイトル: RSコード・エンコーダ
+ * タイトル: RSコード�?�エンコー�?
  *
  * @author Masayuki Miyazaki
  * http://sourceforge.jp/projects/reedsolomon/
@@ -18,39 +18,39 @@ public class RsEncode {
 	}
 
 	/**
-	 * 生成多項式配列の作成
-	 *		G(x)=Π[k=0,n-1](x + α^k)
-	 *		encodeGxの添え字と次数の並びが逆なのに注意
-	 *		encodeGx[0]        = x^(npar - 1)の項
-	 *		encodeGx[1]        = x^(npar - 2)の項
+	 * 生�?�多�??式�?��?��?�作�??
+	 *		G(x)=�?[k=0,n-1](x + α^k)
+	 *		encodeGxの添え字と次数の並びが�??なのに注�?
+	 *		encodeGx[0]        = x^(npar - 1)の�?
+	 *		encodeGx[1]        = x^(npar - 2)の�?
 	 *		...
-	 *		encodeGx[npar - 1] = x^0の項
+	 *		encodeGx[npar - 1] = x^0の�?
 	 */
 	private void  makeEncodeGx() {
 		encodeGx = new int[npar];
 		encodeGx[npar - 1] = 1;
 		for(int kou = 0; kou < npar; kou++) {
 			int ex = galois.toExp(kou);			// ex = α^kou
-			// (x + α^kou)を掛る
+			// (x + α^kou)を掛�?
 			for(int i = 0; i < npar - 1; i++) {
-				// 現在の項 * α^kou + 一つ下の次数の項
+				// 現在の�? * α^kou + �?つ下�?�次数の�?
 				encodeGx[i] = galois.mul(encodeGx[i], ex) ^ encodeGx[i + 1];
 			}
-			encodeGx[npar - 1] = galois.mul(encodeGx[npar - 1], ex);		// 最下位項の計算
+			encodeGx[npar - 1] = galois.mul(encodeGx[npar - 1], ex);		// �?下位�??の計�?
 		}
 	}
 
 	/**
-	 * RSコードのエンコード
+	 * RSコード�?�エンコー�?
 	 *
 	 * @param data int[]
-	 *		入力データ配列
+	 *		入力データ配�??
 	 * @param length int
 	 *		入力データ長
 	 * @param parity int[]
-	 *		パリティ格納用配列
+	 *		パリ�?ィ格納用配�??
 	 * @param parityStartPos int
-	 *		パリティ格納用Index
+	 *		パリ�?ィ格納用Index
 	 * @return int
 	 *		0 : ok
 	 *		< 0: エラー
@@ -61,10 +61,10 @@ public class RsEncode {
 		}
 
 		/*
-		 * パリティ格納用配列
-		 * wr[0]        最上位
-		 * wr[npar - 1] 最下位		なのに注意
-		 * これでパリティを逆順に並べかえなくてよいので、arraycopyが使える
+		 * パリ�?ィ格納用配�??
+		 * wr[0]        �?上�?
+		 * wr[npar - 1] �?下�?		なのに注�?
+		 * これでパリ�?ィを�??�?に並べかえなくてよいので、arraycopyが使える
 		 */
 		int[] wr = new int[npar];
 
